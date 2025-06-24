@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body{
+            background-image: linear-gradient(
+            to right,
+            rgba(30, 128, 108, 0.9),
+            rgba(10, 24, 21, 0.7)
+            ),
+            url("images/105724857.jpg");
+            background-size: cover;
+        }
+    </style>
+    
+</head>   
+<body>
+    <div class="mainthing">
+        
+        <br><div class="icon">
+            <a href="index.html"><i class='bx bx-arrow-back'></i></a>
+        </div><h2 class="hospital">Hospital Services</h2><br>
+        <div class="search_update">
+            <div class="search-container">
+                <label for="city-search" class="citylabel">Search for City</label>
+                <input type="text" id="city-search" oninput="searchCities()" onfocus="showCityList()">
+                <ul id="city-list" class="hidden city-list" onclick="selectCity(event)">
+                    <!-- City list will be displayed here -->
+                </ul>
+                
+            </div>
+            <div id="selected-city"></div>
+
+            
+            <div class="update-container">
+                <label for="updateCity">Update City List:</label>
+                <input type="text" id="updateCity" placeholder="Enter city name">
+                <button type="button" onclick="updateCityList()" class="btn2">Update List</button>
+            </div>
+        </div><br><br>
+        <div class="hospital_form">
+            <form id="hospitalForm">
+                <div class="nibba">
+                    <label for="hospitalName">Hospital Name:</label>
+                    <input type="text" id="hospitalName" name="hospitalName" required maxlength="20" placeholder="Enter Hospital name">
+
+                    <label for="doctorName">Doctor Name:</label>
+                    <input type="text" id="doctorName" name="doctorName" required maxlength="20" placeholder="Enter Your name">
+
+                    <label for="medicalTreatment">Type of Medical Treatment:</label>
+                    <input type="text" id="medicalTreatment" name="medicalTreatment" required maxlength="20" placeholder="Enter Treatment">
+
+                    <label for="location">Location/Address:</label>
+                    <input type="text" id="location" name="location" required maxlength="20" placeholder="Enter Your Location">
+
+                    <button type="button" onclick="submitForm()" class="btn2">Submit</button>
+                </div>
+            </form>
+        </div><br><br>
+    </div>
+    <div class="backg">
+        <marquee><h2>Note: You can only Book 1 Appoinment at a time!</h2></marquee>
+    </div>
+
+    <!-- Display area for submitted information -->
+    <div id="displayInfo"></div>
+
+   
+
+    
+
+    
+    <!-- <button type="button" onclick="clearSubmittedInformation()">Clear Submitted Information</button> -->
+
+
+
+    <script>
+        // Sample list of cities in Andhra Pradesh
+const citiesInAndhraPradesh = [
+    "Visakhapatnam",
+    "Vijayawada",
+    "Guntur",
+    "Nellore",
+    "Kurnool",
+    "Kakinada",
+    "Rajahmundry",
+    "Tirupati",
+    "Anantapur",
+    "Vizianagaram",
+    "Eluru",
+    "Ongole",
+    "Nandyal",
+    "Machilipatnam",
+    "Adoni",
+    "Tenali",
+    "Proddatur",
+    "Chittoor",
+    "Hindupur",
+    "Bhimavaram"
+];
+
+// Declare a global variable to store the selected city
+let selectedCity = '';
+
+// Define a global variable to store all submitted information
+let submittedInformation = [];
+
+// Function to populate the city list
+function populateCityList() {
+    const cityList = document.getElementById('city-list');
+    cityList.innerHTML = '';
+
+    citiesInAndhraPradesh.forEach(city => {
+        const li = document.createElement('li');
+        li.textContent = city;
+        cityList.appendChild(li);
+    });
+}
+
+// Function to filter cities based on user input
+function searchCities() {
+    const searchInput = document.getElementById('city-search').value.toLowerCase();
+    const cityList = document.getElementById('city-list');
+    const cities = cityList.getElementsByTagName('li');
+
+    for (let i = 0; i < cities.length; i++) {
+        const city = cities[i].textContent.toLowerCase();
+        if (city.includes(searchInput)) {
+            cities[i].style.display = 'block';
+        } else {
+            cities[i].style.display = 'none';
+        }
+    }
+
+    // Show or hide the entire list based on search result
+    cityList.className = (searchInput === '') ? 'hidden' : '';
+}
+
+// Function to show the city list when the search bar is clicked
+function showCityList() {
+    const cityList = document.getElementById('city-list');
+    cityList.className = '';
+}
+
+// Function to hide the city list when the search bar loses focus
+function hideCityList() {
+    const cityList = document.getElementById('city-list');
+    cityList.className = 'hidden';
+}
+
+// Function to select a city and store it
+function selectCity(event) {
+    selectedCity = event.target.textContent;
+    document.getElementById('selected-city').textContent = `Selected City: ${selectedCity}`;
+}
+
+// Function to submit the hospital information form
+function submitForm() {
+    // Get form elements
+    const form = document.getElementById('hospitalForm');
+    const hospitalName = form.elements['hospitalName'].value;
+    const doctorName = form.elements['doctorName'].value;
+    const medicalTreatment = form.elements['medicalTreatment'].value;
+    const location = form.elements['location'].value;
+
+    // Check if all fields are filled
+    if (hospitalName && doctorName && medicalTreatment && location && selectedCity) {
+        // Display a confirmation dialog
+        const isConfirmed = confirm("Are you sure you want to submit this information?");
+        
+        // If user confirms, display submitted information
+        if (isConfirmed) {
+            const displayInfoDiv = document.getElementById('displayInfo');
+
+            // Create an object to store the submitted information
+            const submission = {
+                hospitalName: hospitalName,
+                doctorName: doctorName,
+                medicalTreatment: medicalTreatment,
+                location: location,
+                selectedCity: selectedCity
+            };
+            
+            // Add the submission to the array of submitted information
+            submittedInformation.push(submission);
+
+            // Store submitted information in localStorage
+            localStorage.setItem('submittedInformation', JSON.stringify(submittedInformation));
+
+            // Display all submitted information
+            displaySubmittedInformation();
+
+            // Clear selected city for the next submission
+            selectedCity = '';
+            document.getElementById('selected-city').textContent = '';
+        }
+    } else {
+        alert("Please fill out all fields and select a city before submitting.");
+    }
+}
+
+// Function to display all submitted information
+function displaySubmittedInformation() {
+    const displayInfoDiv = document.getElementById('displayInfo');
+    displayInfoDiv.innerHTML = ''; // Clear previous content
+
+    submittedInformation.forEach((submission, index) => {
+        const submissionDiv = document.createElement('div');
+        submissionDiv.classList.add('submission');
+        submissionDiv.innerHTML = `<div id="displayInfo" class="submission__grid">
+                                        <div class="submission__card">
+                                            <h4><strong>Submission ${index + 1}:</strong></h4><br>
+                                            <h6>Hospital Name: <p>${submission.hospitalName}</p></h6><br>
+                                            <h6>Doctor Name: <p>${submission.doctorName}</p></h6><br>
+                                            <h6>Medical Treatment: <p>${submission.medicalTreatment}</p></h6><br>
+                                            <h6>Location: <p>${submission.location}</p></h6><br>
+                                            <h6>Selected City: <p>${submission.selectedCity}</p></h6><br>
+                                            <button class="btn form__btn"><a href="book.html">Book Appoinment</a></button>
+                                        </div>
+                                    </div>`;
+        displayInfoDiv.appendChild(submissionDiv);
+    });
+}
+// Function to clear submitted information from localStorage and array
+// function clearSubmittedInformation() {
+//     submittedInformation = []; // Clear the array
+//     localStorage.removeItem('submittedInformation'); // Remove from localStorage
+//     displaySubmittedInformation(); // Update the display
+// }
+
+// Add an event listener to the form fields to enforce character limit
+document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', function() {
+        if (this.value.length > 20) {
+            this.value = this.value.slice(0, 20); // Trim input to 20 characters
+        }
+    });
+});
+
+
+// Function to load submitted information from localStorage
+function loadSubmittedInformation() {
+    const storedInfo = localStorage.getItem('submittedInformation');
+    if (storedInfo) {
+        submittedInformation = JSON.parse(storedInfo);
+        displaySubmittedInformation();
+    }
+}
+
+// Initialize the city list and submitted information on page load
+window.onload = function () {
+    populateCityList();
+    loadSubmittedInformation();
+};
+
+// Function to select a city and store it
+function selectCity(event) {
+    selectedCity = event.target.textContent;
+    document.getElementById('selected-city').textContent = `Selected City: ${selectedCity}`;
+    
+    // Hide the city list after selecting a city
+    hideCityList();
+}
+
+// Function to update the city list
+function updateCityList() {
+    const updateInput = document.getElementById('updateCity');
+    const cityName = updateInput.value.trim();
+
+    if (cityName !== '') {
+        // Check if the city is not already in the list
+        if (!citiesInAndhraPradesh.includes(cityName)) {
+            // Add the new city to the list
+            citiesInAndhraPradesh.push(cityName);
+            
+            // Refresh the city list
+            populateCityList();
+
+            // Clear the update input field
+            updateInput.value = '';
+        } else {
+            alert('City already exists in the list!');
+        }
+    } else {
+        alert('Please enter a valid city name!');
+    }
+}
+</script>
+</body>
+</html> 

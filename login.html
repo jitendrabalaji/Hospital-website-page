@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="styles2.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+</head>
+<body class="container">
+    <div class="wrapper">
+        <span class="icon-close"><a href="index.html"><ion-icon name="close"></ion-icon></a></span>
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form action="login.php" method="post" id="loginForm">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" id="emailInput" name="email" class="form-control" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label ><input type="checkbox">Remember me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <input type="submit" class="btn" value="Login" name="">
+                <div class="login-register">
+                    <p>Don't have an account?<a href="register.html">Register</a></p>
+                </div>
+            </form>
+        </div>
+
+        
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        var emailFromURL = getUrlParameter('email');
+        document.getElementById('emailInput').value = emailFromURL;
+
+        function redirectToAnotherPage() {
+            
+            var email = document.getElementById("emailInput").value;
+            var password = document.getElementById("password").value;
+        
+            
+            if (email && password) {
+                window.location.href = 'index.html';
+            } else {
+                alert('Please provide both email and password.');
+            }
+        }
+        
+
+
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

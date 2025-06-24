@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="container">
+    <div class="wrapper">
+        <span class="icon-close"><a href="service.html"><ion-icon name="close"></ion-icon></a></span>
+        <div class="form-box login">
+            <h2>Book Now</h2>
+            <div class="header__form1">
+                <form id="appointmentForm" action="book.php" method="post">
+                    <input type="text" placeholder="First Name" required name="firstName">
+                    <input type="text" placeholder="Last Name" required name="lastName">
+                    <input type="text" placeholder="Address" required name="address">
+                    <input type="text" placeholder="Phone No." required name="phone">
+                    <button class="btn form__btn">Book Appointment<input type="submit" class="boy" value="Book Appoinment" name=""></button>
+                </form>
+            </div>
+        </div>
+        <div id="successMessage" style="display: none;">Your appointment was successfully booked.</div>
+    </div>
+    <script src="script.js">
+        document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            // Display success message as an alert
+            alert("Your appointment was successfully booked.");
+            // Optionally, you can reset the form after submission
+            // event.target.reset();
+        });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+            
+            
+        
+
+</body>
+</html>
